@@ -1,3 +1,4 @@
+// 1 вариант
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -6,8 +7,16 @@ function getRandomInt(min, max) {
 
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-getRandomInt(1.3,9);
+getRandomInt(1,9);
+// 2 вариант, тернарный оператор
+function getRandomSecond(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
 
+  return (min > max) ? 'Задан неверный диапазон! Укажите другие числа.' : Math.floor(Math.random() * (max - min + 1)) + min;
+}
+getRandomSecond(2,9);
+// Задание 2
 function getRandom(min, max, maxDigits) {
   if (min > max || min < 0 || max <= 0) {
     return ('Задан неверный диапазон! Укажите другие числа.');
