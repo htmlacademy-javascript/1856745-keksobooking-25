@@ -6,7 +6,7 @@ function getRandomInt(min, max) {
 
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-console.log(getRandomInt(1.3,9));
+getRandomInt(1.3,9);
 
 function getRandom(min, max, maxDigits) {
   if (min > max || min < 0 || max <= 0) {
@@ -16,4 +16,4 @@ function getRandom(min, max, maxDigits) {
   const digitsDegree = 10 ** maxDigits;
   return ~~((Math.random() * (max - min) + min)* digitsDegree) / digitsDegree;
 }
-console.log(getRandom(4, 8, 5));
+getRandom(4, 8, 5);
