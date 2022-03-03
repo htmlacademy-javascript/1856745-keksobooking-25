@@ -1,14 +1,16 @@
-import {getRandomPositiveFloat} from './util.js';
-import {getRandomPositiveInteger} from './util.js';
-import {getNumberWithLeadZero} from './util.js';
-import {getRandomItem} from './util.js';
-import {getRandomArrayPart} from './util.js';
+import {
+  getRandomPositiveFloat,
+  getRandomPositiveInteger,
+  getNumberWithLeadZero,
+  getRandomItem,
+  getRandomArrayPart
+} from './util.js';
 
 const OFFERS_COUNT = 10;
 const COORD_DECIMALS = 5;
-const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
-const CHECK_TIMES = ['12:00', '13:00', '14:00'];
-const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+export const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+export const CHECK_TIMES = ['12:00', '13:00', '14:00'];
+export const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const PHOTO_DIR = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking';
 const PHOTOS = [
   `${PHOTO_DIR}/duonguyen-8LrGtIxxa4w.jpg`,
@@ -66,7 +68,4 @@ const generateOffer = (index) => {
 
 const generateOffers = (length) => Array.from({ length }).map((_el, i) => generateOffer(i + 1));
 
-generateOffers(OFFERS_COUNT);
-
-export {generateOffers(OFFERS_COUNT)};
-
+export const offers = generateOffers(OFFERS_COUNT);
