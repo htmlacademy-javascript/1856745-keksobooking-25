@@ -6,6 +6,14 @@ import {
   getRandomArrayPart
 } from './util.js';
 
+export const typeFlat = {
+  flat: 'Квартира',
+  bungalow: 'Бунгало',
+  house: 'Дом',
+  palace: 'Дворец',
+  hotel: 'Отель'
+};
+
 const OFFERS_COUNT = 10;
 const COORD_DECIMALS = 5;
 export const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
