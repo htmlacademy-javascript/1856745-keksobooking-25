@@ -15,3 +15,8 @@ const enableInactiveState = () => {
 
   window.util.setDisabled(adFormFieldset, true);
 };
+
+window.form = {
+  enableActiveState: enableActiveState,
+  enableInactiveState: enableInactiveState,
+};
