@@ -8,7 +8,6 @@ import {
 
 
 console.log(offers);
-console.log(showCard);
-
+showCard(offers[9]);
 enableInactiveState();
 enableActiveState();
