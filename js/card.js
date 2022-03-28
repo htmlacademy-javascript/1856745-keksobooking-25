@@ -3,7 +3,7 @@ import {
 } from './data.js';
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-const imgTemplate = cardTemplate.querySelector('.popup_photo');
+const imgTemplate = cardTemplate.querySelector('.popup__photo');
 
 // Вставка списка удобств
 const insertFeatures = (element, array) => {
