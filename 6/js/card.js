@@ -2,8 +2,7 @@ import {
   typeFlat
 } from './data.js';
 
-const template = document.querySelector('#card').content;
-const cardTemplate = template.querySelector('.popup');
+const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 const imgTemplate = cardTemplate.querySelector('.popup_photo');
 
 // Вставка списка удобств
