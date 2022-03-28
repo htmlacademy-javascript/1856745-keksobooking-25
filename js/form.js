@@ -4,7 +4,7 @@ const setDisabled = function (collection, value = true) {
     item.disabled = value;
   });
 };
-const FORM_DISADLED_CLASS_NAME ='ad-form--disabled';
+const FORM_DISADLED_CLASS_NAME = 'ad-form--disabled';
 const adForm = document.querySelector('.ad-form');
 const adFormFieldsets = adForm.querySelectorAll('fieldset');
 setDisabled(adFormFieldsets, true);
