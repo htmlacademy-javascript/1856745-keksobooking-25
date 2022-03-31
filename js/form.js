@@ -52,19 +52,6 @@ const setPriceAttributes = () => {
 setPriceAttributes();
 const validateTitle = (value) => value.length >= 30 && value.length <= 100;
 
-typeFieldElement.addEventListener('change', () => {
-  setPriceAttributes();
-
-  // priceUISlider.updateOptions({
-  //   range: {
-  //     min: parseInt(priceFieldElement.min, 10),
-  //     max: MAX_PRICE,
-  //   },
-  // });
-
-  // Чтобы при смене типа сразу подсветило, если значение стало невалидным
-  pristine.validate(priceFieldElement);
-});
 
 pristine.addValidator(
   adFormElement.querySelector('#title'),
