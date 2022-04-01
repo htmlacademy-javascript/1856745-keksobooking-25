@@ -34,3 +34,21 @@ export const getRandomArrayPart = (arr) => {
 
 // Утилита общего назначения для вывода числа с ведущим нулём
 export const getNumberWithLeadZero = (number) => number < 10 ? `0${number}` : number;
+
+// Корректировка существительных после числительных
+const DECLINE_THRESHOLD = 5;
+const DECLINE_TAILSTART = -2;
+
+export const declineNum = (num, nominative, genitiveSingular = nominative, genitivePlural = genitiveSingular) => {
+  let answer = genitivePlural;
+  const numLast = parseInt(num.toString().slice(-1), 10);
+  const numLastDecim = parseInt(num.toString().slice(DECLINE_TAILSTART, -1), 10);
+  if (numLastDecim !== 1) {
+    if (numLast === 1) {
+      answer = nominative;
+    } else if (numLast > 1 && numLast < DECLINE_THRESHOLD) {
+      answer = genitiveSingular;
+    }
+  }
+  return `${num} ${answer}`;
+};
