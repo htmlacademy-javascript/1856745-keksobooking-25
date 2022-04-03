@@ -32,15 +32,17 @@ const roomsFieldElement = adFormElement.querySelector('[name="rooms"]');
 const capacityFieldElement = adFormElement.querySelector('[name="capacity"]');
 const priceFieldElement = adFormElement.querySelector('[name="price"]');
 const typeFieldElement = adFormElement.querySelector('[name="type"]');
+const timeinFieldElement = adFormElement.querySelector('[name="timein"]');
+const timeoutFieldElement = adFormElement.querySelector('[name="timeout"]');
 const PRICE_VALIDATION_PRIORITY = 1000;
 
 const pristine = new Pristine(adFormElement, {
-  classTo: 'form__item',
-  errorClass: 'form__item--invalid',
-  successClass: 'form__item--valid',
-  errorTextParent: 'form__item',
-  errorTextTag: 'span',
-  errorTextClass: 'form__error'
+  classTo: 'ad-form__element',
+  // errorClass: 'form__item--invalid',
+  // successClass: 'form__item--valid',
+  errorTextParent: 'ad-form__element',
+  // errorTextTag: 'span',
+  // errorTextClass: 'form__error'
 });
 
 const setPriceAttributes = () => {
@@ -53,6 +55,11 @@ setPriceAttributes();
 const validateTitle = (value) => value.length >= 30 && value.length <= 100;
 
 
+typeFieldElement.addEventListener('change', () => {
+  setPriceAttributes();
+  pristine.validate(priceFieldElement);
+});
+
 pristine.addValidator(
   adFormElement.querySelector('#title'),
   validateTitle,
@@ -61,27 +68,36 @@ pristine.addValidator(
   true
 );
 
-const validatePrice = (value) => value >= 5000 && value <= MAX_PRICE;
-
+const validatePrice = (value) => value >= Number(priceFieldElement.min) && value <= MAX_PRICE;
 
 const getPriceMessage = () => `Выберите число между ${priceFieldElement.min} и ${MAX_PRICE}`;
 const validateCapacity = () => roomToGuests[roomsFieldElement.value].includes(capacityFieldElement.value);
 
-const getCapacityMessage = () => {
-  const roos = declineNum(roomsFieldElement.value, 'комнаты', 'комнат');
-  const validGuests = roomToGuests[roomsFieldElement.value];
-  return `Для ${roos} допустимо гостей: ${validGuests.join(', ')}`;
+const timesChangeHandler = (evt) => {
+  const { value } = evt.currentTarget;
+  timeinFieldElement.value = value;
+  timeoutFieldElement.value = value;
 };
+
+timeinFieldElement.addEventListener('change', timesChangeHandler);
+timeoutFieldElement.addEventListener('change', timesChangeHandler);
+
+const getCapacityMessage = () => {
+  const rooms = declineNum(roomsFieldElement.value, 'комнаты', 'комнат');
+  const validGuests = roomToGuests[roomsFieldElement.value];
+  return `Для ${rooms} допустимо гостей: ${validGuests.join(', ')}`;
+};
+
 roomsFieldElement.addEventListener('change', () => pristine.validate(capacityFieldElement));
 
 pristine.addValidator(priceFieldElement, validatePrice, getPriceMessage, PRICE_VALIDATION_PRIORITY, true);
 pristine.addValidator(capacityFieldElement, validateCapacity, getCapacityMessage);
 
 adFormElement.addEventListener('submit', (evt) => {
-  if (pristine.validate()) {
-    console('Успешно');
+  if (!pristine.validate()) {
+    evt.preventDefault();
   }
-  evt.preventDefault();
+
 });
 
 export {
