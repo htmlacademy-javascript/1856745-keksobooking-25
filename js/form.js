@@ -2,6 +2,7 @@ import {
   declineNum
 } from './util.js';
 import { MAX_PRICE, offerTypes, roomToGuests } from './data.js';
+import { createUiSlider } from './slider.js';
 
 // Добавление disabled
 const setDisabled = function (collection, value = true) {
@@ -31,18 +32,20 @@ const adFormElement = document.querySelector('.ad-form');
 const roomsFieldElement = adFormElement.querySelector('[name="rooms"]');
 const capacityFieldElement = adFormElement.querySelector('[name="capacity"]');
 const priceFieldElement = adFormElement.querySelector('[name="price"]');
+const priceSliderElement = adFormElement.querySelector('.ad-form__slider');
 const typeFieldElement = adFormElement.querySelector('[name="type"]');
 const timeinFieldElement = adFormElement.querySelector('[name="timein"]');
 const timeoutFieldElement = adFormElement.querySelector('[name="timeout"]');
 const PRICE_VALIDATION_PRIORITY = 1000;
-
+const initialType = typeFieldElement.value;
 const pristine = new Pristine(adFormElement, {
   classTo: 'ad-form__element',
-  // errorClass: 'form__item--invalid',
-  // successClass: 'form__item--valid',
   errorTextParent: 'ad-form__element',
-  // errorTextTag: 'span',
-  // errorTextClass: 'form__error'
+});
+
+const priceUISlider = createUiSlider(priceSliderElement, parseInt(priceFieldElement.min, 10), () => {
+  priceFieldElement.value = priceUISlider.get();
+  pristine.validate(priceFieldElement);
 });
 
 const setPriceAttributes = () => {
@@ -51,12 +54,27 @@ const setPriceAttributes = () => {
   priceFieldElement.placeholder = minPrice;
 };
 
+setPriceAttributes(initialType);
+
+const changeType = (type = typeFieldElement.value) => {
+  setPriceAttributes(type);
+
+  priceUISlider.updateOptions({
+    range: {
+      min: parseInt(priceFieldElement.min, 10),
+      max: MAX_PRICE,
+    },
+  });
+};
+
+
 setPriceAttributes();
 const validateTitle = (value) => value.length >= 30 && value.length <= 100;
 
 
 typeFieldElement.addEventListener('change', () => {
   setPriceAttributes();
+  changeType();
   pristine.validate(priceFieldElement);
 });
 
