@@ -45,7 +45,7 @@ const renderCard = (card) => {
 
   return cardElement;
 };
-
+export {renderCard};
 // Показ объявления
 export const showCard = (ad) => {
   const adCard = document.querySelector('#map-canvas');

@@ -42,9 +42,15 @@ export const offerTypes = {
   },
 };
 
+export const DEFAULT_LOCATION = {
+  lat: 35.6896,
+  lng: 139.6924,
+};
+
+export const COORD_DECIMALS = 5;
+
 export const MAX_PRICE = 100000;
 const OFFERS_COUNT = 10;
-const COORD_DECIMALS = 5;
 export const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 export const CHECK_TIMES = ['12:00', '13:00', '14:00'];
 export const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];

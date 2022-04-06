@@ -43,11 +43,6 @@ const pristine = new Pristine(adFormElement, {
   errorTextParent: 'ad-form__element',
 });
 
-const priceUISlider = createUiSlider(priceSliderElement, parseInt(priceFieldElement.min, 10), () => {
-  priceFieldElement.value = priceUISlider.get();
-  pristine.validate(priceFieldElement);
-});
-
 const setPriceAttributes = () => {
   const minPrice = offerTypes[typeFieldElement.value].min;
   priceFieldElement.min = minPrice;
@@ -55,6 +50,12 @@ const setPriceAttributes = () => {
 };
 
 setPriceAttributes(initialType);
+
+const priceUISlider = createUiSlider(priceSliderElement, parseInt(priceFieldElement.min, 10), () => {
+  priceFieldElement.value = priceUISlider.get();
+  pristine.validate(priceFieldElement);
+});
+
 
 const changeType = (type = typeFieldElement.value) => {
   setPriceAttributes(type);
