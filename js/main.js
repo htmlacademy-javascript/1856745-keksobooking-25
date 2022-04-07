@@ -5,8 +5,10 @@ import {
 } from './form.js';
 import {
   getMapPoints,
+  loadMap
 } from './map.js';
 
 enableInactiveState();
-enableActiveState();
+// enableActiveState();
+loadMap(enableActiveState());
 getMapPoints(offers);

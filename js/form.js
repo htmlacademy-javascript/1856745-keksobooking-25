@@ -3,6 +3,7 @@ import {
 } from './util.js';
 import { MAX_PRICE, offerTypes, roomToGuests } from './data.js';
 import { createUiSlider } from './slider.js';
+import { addMapHandlers } from './map.js';
 
 // Добавление disabled
 const setDisabled = function (collection, value = true) {
@@ -29,6 +30,7 @@ const enableInactiveState = () => {
 
 //Валидация формы
 const adFormElement = document.querySelector('.ad-form');
+const addressElement = adFormElement.querySelector('#address');
 const roomsFieldElement = adFormElement.querySelector('[name="rooms"]');
 const capacityFieldElement = adFormElement.querySelector('[name="capacity"]');
 const priceFieldElement = adFormElement.querySelector('[name="price"]');
@@ -38,6 +40,9 @@ const timeinFieldElement = adFormElement.querySelector('[name="timein"]');
 const timeoutFieldElement = adFormElement.querySelector('[name="timeout"]');
 const PRICE_VALIDATION_PRIORITY = 1000;
 const initialType = typeFieldElement.value;
+
+const resetMapHandler = addMapHandlers(addressElement);
+
 const pristine = new Pristine(adFormElement, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
@@ -118,8 +123,12 @@ adFormElement.addEventListener('submit', (evt) => {
   }
 
 });
+adFormElement.addEventListener('reset', () => {
+  resetMapHandler();
+});
 
 export {
   enableActiveState,
   enableInactiveState,
+  FORM_DISADLED_CLASS_NAME
 };

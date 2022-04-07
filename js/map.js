@@ -38,7 +38,6 @@ const addMapHandlers = (addressElement) => {
 
   return () => {
     mainPinMarker.setLatLng(DEFAULT_LOCATION);
-    map.closePopup().setView(DEFAULT_LOCATION);
   };
 };
 
@@ -52,10 +51,8 @@ const getMapPoints = (offers) => {
 
   offers.forEach(({author, offer, location}) => {
     const icon = setPin(PIN_SIZE, 'pin');
-
     const lat = location.lat;
     const lng = location.lng;
-
     const marker = L.marker(
       {
         lat,
@@ -65,7 +62,6 @@ const getMapPoints = (offers) => {
         icon,
       },
     );
-
     marker
       .addTo(markerGroup)
       .bindPopup(renderCard({author, offer, location}),
@@ -76,8 +72,9 @@ const getMapPoints = (offers) => {
         },
       );
   });
-
+};
+const loadMap = (loadHandler) => {
+  map.on('load', loadHandler).setView(DEFAULT_LOCATION);
 };
 
-
-export { getMapPoints, addMapHandlers };
+export { loadMap, getMapPoints, addMapHandlers };
