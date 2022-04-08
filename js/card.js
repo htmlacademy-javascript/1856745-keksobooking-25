@@ -45,9 +45,10 @@ const renderCard = (card) => {
 
   return cardElement;
 };
-
 // Показ объявления
-export const showCard = (ad) => {
+const showCard = (ad) => {
   const adCard = document.querySelector('#map-canvas');
   adCard.insertAdjacentElement('beforeend', renderCard(ad));
 };
+
+export {renderCard, showCard};
