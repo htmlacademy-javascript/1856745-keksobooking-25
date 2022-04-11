@@ -2,6 +2,8 @@ import {
   typeFlat
 } from './data.js';
 
+import { getMapPoints } from './map.js';
+const MAX_POINTS_MAP = 10;
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 const imgTemplate = cardTemplate.querySelector('.popup__photo');
 
@@ -51,4 +53,12 @@ const showCard = (ad) => {
   adCard.insertAdjacentElement('beforeend', renderCard(ad));
 };
 
-export {renderCard, showCard};
+const getFilteredData = (data) => {
+  if (data) {
+    const array = data
+      .slice();
+    getMapPoints(array.slice(0, MAX_POINTS_MAP));
+  }
+};
+
+export {renderCard, showCard, getFilteredData};

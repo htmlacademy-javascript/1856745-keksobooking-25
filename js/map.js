@@ -38,6 +38,7 @@ const addMapHandlers = (addressElement) => {
 
   return () => {
     mainPinMarker.setLatLng(DEFAULT_LOCATION);
+    map.closePopup().setView(DEFAULT_LOCATION);
   };
 };
 
@@ -45,11 +46,11 @@ mainPinMarker.addTo(map);
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const getMapPoints = (offers) => {
+const getMapPoints = (array) => {
 
   markerGroup.clearLayers();
 
-  offers.forEach(({author, offer, location}) => {
+  array.forEach(({author, offer, location}) => {
     const icon = setPin(PIN_SIZE, 'pin');
     const lat = location.lat;
     const lng = location.lng;
