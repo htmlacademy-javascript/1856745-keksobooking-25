@@ -38,6 +38,7 @@ const addMapHandlers = (addressElement) => {
 
   return () => {
     mainPinMarker.setLatLng(DEFAULT_LOCATION);
+    map.closePopup().setView(DEFAULT_LOCATION);
   };
 };
 
