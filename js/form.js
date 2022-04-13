@@ -3,7 +3,8 @@ import { MAX_PRICE, offerTypes, roomToGuests } from './data.js';
 import { createUiSlider } from './slider.js';
 import { addMapHandlers } from './map.js';
 import { sendData } from './api.js';
-import {getPopupSuccess, getPopupError} from './modals.js';
+// import { createPopup } from './popup.js';
+// import { getPopupSuccess, getPopupError } from './modals.js';
 
 // Добавление disabled
 const setDisabled = function (collection, value = true) {
@@ -42,16 +43,10 @@ const PRICE_VALIDATION_PRIORITY = 1000;
 const initialType = typeFieldElement.value;
 
 const resetMapHandler = addMapHandlers(addressElement);
-const submitButton = adFormElement.querySelector('.ad-form__submit');
+// const submitButton = adFormElement.querySelector('.ad-form__submit');
 
-const blockSubmitButton = () => {
-  submitButton.disabled = true;
-  // submitButton.textContent = 'Сохраняю...';
-};
-
-// const unblockSubmitButton = () => {
-//   submitButton.disabled = false;
-//   // submitButton.textContent = 'Сохранить';
+// const blockSubmitButton = () => {
+//   submitButton.disabled = true;
 // };
 
 const pristine = new Pristine(adFormElement, {
@@ -135,20 +130,23 @@ const setUserFormSubmit = () => {
 
     const isValid = pristine.validate();
     if (isValid) {
-      blockSubmitButton();
-      sendData(
-        getPopupSuccess,
-        getPopupError,
-        new FormData(evt.target),
+      // blockSubmitButton();
+      const offerData = new FormData(evt.target);
+      sendData(offerData, () => {
+        adFormElement.reset();
+        resetMapHandler();
+      }
       );
     }
-    resetMapHandler();
-    adFormElement.reset();
+
   });
 };
 
 adFormElement.addEventListener('reset', () => {
   resetMapHandler();
+  changeType(initialType);
+  priceUISlider.set(parseInt(priceFieldElement.min, 10));
+  pristine.reset();
 });
 
 export {
