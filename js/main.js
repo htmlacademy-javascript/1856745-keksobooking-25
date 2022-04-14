@@ -1,14 +1,21 @@
-import {offers} from './data.js';
 import {
   enableActiveState,
-  enableInactiveState
+  enableInactiveState,
+  setUserFormSubmit
 } from './form.js';
 import {
   getMapPoints,
   loadMap
 } from './map.js';
+import {
+  getData,
+  // sendData
+} from './api.js';
 
 enableInactiveState();
-// enableActiveState();
-loadMap(enableActiveState());
-getMapPoints(offers);
+
+getData((data) => {
+  getMapPoints(data);
+  loadMap(enableActiveState());
+});
+setUserFormSubmit();
