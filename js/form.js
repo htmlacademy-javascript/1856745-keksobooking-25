@@ -42,6 +42,11 @@ const PRICE_VALIDATION_PRIORITY = 1000;
 const initialType = typeFieldElement.value;
 
 const resetMapHandler = addMapHandlers(addressElement);
+// const submitButton = adFormElement.querySelector('.ad-form__submit');
+
+// const blockSubmitButton = () => {
+//   submitButton.disabled = true;
+// };
 
 const pristine = new Pristine(adFormElement, {
   classTo: 'ad-form__element',

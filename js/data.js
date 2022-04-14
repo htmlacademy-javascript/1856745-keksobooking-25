@@ -1,3 +1,4 @@
+
 export const typeFlat = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -41,6 +42,12 @@ export const DEFAULT_LOCATION = {
 
 export const COORD_DECIMALS = 5;
 export const MAX_PRICE = 100000;
+
 export const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 export const CHECK_TIMES = ['12:00', '13:00', '14:00'];
 export const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+
+export const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+export const CHECK_TIMES = ['12:00', '13:00', '14:00'];
+export const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+
