@@ -1,12 +1,11 @@
 import { DEFAULT_LOCATION, COORD_DECIMALS } from './data.js';
 import { renderCard } from './card.js';
-// import {offers} from './data.js';
 const MAIN_PIN_SIZE = 52;
 const PIN_SIZE = 40;
 const PIN_RATIO = 0.5;
 const BALOON_MIN_WIDTH = 300;
 const BALOON_MAX_HEIGHT = 400;
-
+const ZOOM = 14;
 const map = L.map('map-canvas')
   .setView(DEFAULT_LOCATION, 10);
 
@@ -38,7 +37,7 @@ const addMapHandlers = (addressElement) => {
 
   return () => {
     mainPinMarker.setLatLng(DEFAULT_LOCATION);
-    map.closePopup().setView(DEFAULT_LOCATION);
+    map.closePopup().setView(DEFAULT_LOCATION, ZOOM);
   };
 };
 
@@ -75,7 +74,7 @@ const getMapPoints = (array) => {
   });
 };
 const loadMap = (loadHandler) => {
-  map.on('load', loadHandler).setView(DEFAULT_LOCATION);
+  map.on('load', loadHandler).setView(DEFAULT_LOCATION, ZOOM);
 };
 
 export { loadMap, getMapPoints, addMapHandlers };

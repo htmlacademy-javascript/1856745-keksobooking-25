@@ -8,10 +8,10 @@ const cardTemplate = document.querySelector('#card').content.querySelector('.pop
 const imgTemplate = cardTemplate.querySelector('.popup__photo');
 
 // Вставка списка удобств
-const insertFeatures = (element, array) => {
+const insertFeatures = (element, features = []) => {
   element.innerHTML = '';
 
-  array.forEach((item) => {
+  features.forEach((item) => {
     const featureItem = document.createElement('li');
     featureItem.classList.add('popup__feature');
     featureItem.classList.add(`popup__feature--${item}`);
@@ -20,10 +20,10 @@ const insertFeatures = (element, array) => {
 };
 
 // Вставка фотографий
-const insertPhotos = (element, array) => {
+const insertPhotos = (element, photos = []) => {
   element.innerHTML = '';
 
-  array.forEach((item) => {
+  photos.forEach((item) => {
     const adPhoto = imgTemplate.cloneNode(true);
     adPhoto.src = item;
     element.appendChild(adPhoto);

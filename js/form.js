@@ -1,9 +1,9 @@
-import {
-  declineNum
-} from './util.js';
+import { declineNum } from './util.js';
 import { MAX_PRICE, offerTypes, roomToGuests } from './data.js';
 import { createUiSlider } from './slider.js';
 import { addMapHandlers } from './map.js';
+import { sendData } from './api.js';
+
 
 // Добавление disabled
 const setDisabled = function (collection, value = true) {
@@ -117,17 +117,34 @@ roomsFieldElement.addEventListener('change', () => pristine.validate(capacityFie
 pristine.addValidator(priceFieldElement, validatePrice, getPriceMessage, PRICE_VALIDATION_PRIORITY, true);
 pristine.addValidator(capacityFieldElement, validateCapacity, getCapacityMessage);
 
-adFormElement.addEventListener('submit', (evt) => {
-  if (!pristine.validate()) {
-    evt.preventDefault();
-  }
 
-});
+const setUserFormSubmit = () => {
+  adFormElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      // blockSubmitButton();
+      const offerData = new FormData(evt.target);
+      sendData(offerData, () => {
+        adFormElement.reset();
+        resetMapHandler();
+      }
+      );
+    }
+
+  });
+};
+
 adFormElement.addEventListener('reset', () => {
   resetMapHandler();
+  changeType(initialType);
+  priceUISlider.set(parseInt(priceFieldElement.min, 10));
+  pristine.reset();
 });
 
 export {
+  setUserFormSubmit,
   enableActiveState,
   enableInactiveState,
   FORM_DISADLED_CLASS_NAME

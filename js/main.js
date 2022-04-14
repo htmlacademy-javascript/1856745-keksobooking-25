@@ -1,25 +1,28 @@
-// import { getData } from './api.js';
-// import { getFilteredData } from './card.js';
-import {offers} from './data.js';
 import {
   enableActiveState,
-  enableInactiveState
+  // enableInactiveState,
+  setUserFormSubmit
 } from './form.js';
 import {
   // getMapPoints,
   loadMap
 } from './map.js';
+import {
+  getData,
+  // sendData
+} from './api.js';
+import {
+  getFilteredData,
+  formFilterListener
+} from './filters.js';
+import {
+  debounce
+} from './util.js';
 
-enableInactiveState();
-// enableActiveState();
-loadMap(enableActiveState());
-// getData();
-console.log(offers);
-// getData(getMapPoints);
-
-fetch('https://25.javascript.pages.academy/keksobooking/data')
-  .then((response) => response.json())
-  .then((data) => {
-    console.log(data);
-  });
-
+// enableInactiveState();
+getData((data) => {
+  getFilteredData(data);
+  loadMap(enableActiveState());
+  formFilterListener(debounce(() => getFilteredData(data)));
+});
+setUserFormSubmit();
