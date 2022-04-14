@@ -14,7 +14,8 @@ import {
 
 enableInactiveState();
 
-getData((data) => {getMapPoints(data);
+getData((data) => {
+  getMapPoints(data);
   loadMap(enableActiveState());
 });
 setUserFormSubmit();
