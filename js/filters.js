@@ -1,8 +1,8 @@
-import {getMapPoints} from './map.js';
-
+import { getMapPoints} from './map.js';
+import { toggleForm } from './util.js';
 const MAX_POINTS_MAP = 10;
-
-const formFilters = document.querySelector('.map__filters');
+const FILTERS_DISABLED_CLASS_NAME = 'map__filters--disabled';
+export const formFilters = document.querySelector('.map__filters');
 const housingType = formFilters.querySelector('#housing-type');
 const housingPrice = formFilters.querySelector('#housing-price');
 const housingRooms = formFilters.querySelector('#housing-rooms');
@@ -29,40 +29,39 @@ const keyHousingPrice = {
 };
 
 const isHousingType = (item) =>
-  ((item.offer.type === housingType.value) || (housingType.value === 'any'));
+  item.offer.type === housingType.value || housingType.value === 'any';
 
 const isHousingPrice = (item) =>
-  (((item.offer.price >= keyHousingPrice[housingPrice.value].min) &&
-  (item.offer.price <= keyHousingPrice[housingPrice.value].max)) ||
-  (housingPrice.value === 'any'));
+  item.offer.price >= keyHousingPrice[housingPrice.value].min &&
+  item.offer.price <= keyHousingPrice[housingPrice.value].max ||
+  housingPrice.value === 'any';
 
 const isHousingRooms = (item) =>
-  ((item.offer.rooms === Number(housingRooms.value)) || (housingRooms.value === 'any'));
+  item.offer.rooms === Number(housingRooms.value) || housingRooms.value === 'any';
 
 const isHousingGuests = (item) =>
-  ((item.offer.guests === Number(housingGuests.value)) || (housingGuests.value === 'any'));
+  item.offer.guests === Number(housingGuests.value) || housingGuests.value === 'any';
 
-const isHousingFeatures = (item) => {
-  const featuresCheckedList = housingFeatures.querySelectorAll('input:checked');
-  let flag = !featuresCheckedList.length >= 1;
-  if (item.offer.features && featuresCheckedList.length >= 1) {
-    for (let i = 0; i < featuresCheckedList.length; i++) {
-      if (!item.offer.features.includes(featuresCheckedList[i].value)) {
-        // eslint-disable-next-line no-return-assign
-        return flag = false;
-      }
-    }
-    flag = true;
+const isHousingFeatures = (features) => {
+  if (!features || !features.length) {
+    return false;
   }
-  return flag;
+
+  const featuresCheckedList = housingFeatures.querySelectorAll('input:checked');
+  for (const feature of featuresCheckedList) {
+    if (!features.includes(feature.value)) {
+      return false;
+    }
+  }
+  return true;
 };
 
 const isCardValid = (item) =>
-  (isHousingType(item) &&
+  isHousingType(item) &&
   isHousingPrice(item) &&
   isHousingRooms(item) &&
   isHousingGuests(item) &&
-  isHousingFeatures(item));
+  isHousingFeatures(item.offer.features);
 
 const getFilteredData = (data) => {
   if (data) {
@@ -79,4 +78,8 @@ const formFilterListener = (cb) => {
   });
 };
 
-export {getFilteredData, formFilterListener};
+const toggleFilters = (isActive) => {
+  toggleForm(isActive, formFilters, FILTERS_DISABLED_CLASS_NAME);
+};
+
+export {getFilteredData, formFilterListener, toggleFilters};

@@ -12,7 +12,6 @@ const getData = (onSuccess) => fetch(`${SERVER}/data`, {
     if (ok) {
       return res.json();
     }
-
     createPopup('ERROR_FETCH');
     return [];
   })

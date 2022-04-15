@@ -5,7 +5,7 @@ const PIN_SIZE = 40;
 const PIN_RATIO = 0.5;
 const BALOON_MIN_WIDTH = 300;
 const BALOON_MAX_HEIGHT = 400;
-const ZOOM = 14;
+const ZOOM = 13;
 const map = L.map('map-canvas')
   .setView(DEFAULT_LOCATION, 10);
 

@@ -1,7 +1,6 @@
 import {
   enableActiveState,
-  // enableInactiveState,
-  setUserFormSubmit
+  enableInactiveState
 } from './form.js';
 import {
   // getMapPoints,
@@ -13,16 +12,19 @@ import {
 } from './api.js';
 import {
   getFilteredData,
-  formFilterListener
+  formFilterListener,
+  toggleFilters
 } from './filters.js';
 import {
   debounce
 } from './util.js';
 
-// enableInactiveState();
+enableInactiveState();
+toggleFilters(false);
 getData((data) => {
   getFilteredData(data);
-  loadMap(enableActiveState());
+  loadMap(enableActiveState(true));
+  toggleFilters(true);
   formFilterListener(debounce(() => getFilteredData(data)));
 });
-setUserFormSubmit();
+

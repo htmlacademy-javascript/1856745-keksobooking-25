@@ -3,7 +3,7 @@ import { MAX_PRICE, offerTypes, roomToGuests } from './data.js';
 import { createUiSlider } from './slider.js';
 import { addMapHandlers } from './map.js';
 import { sendData } from './api.js';
-
+// import { formFilters } from './filters.js';
 
 // Добавление disabled
 const setDisabled = function (collection, value = true) {
@@ -15,6 +15,8 @@ const FORM_DISADLED_CLASS_NAME = 'ad-form--disabled';
 const adForm = document.querySelector('.ad-form');
 const adFormFieldsets = adForm.querySelectorAll('fieldset');
 setDisabled(adFormFieldsets, true);
+
+const mapFilters = document.querySelector('.map__filters');
 
 // Перевод в активное состояние
 const enableActiveState = () => {
@@ -122,34 +124,33 @@ roomsFieldElement.addEventListener('change', () => pristine.validate(capacityFie
 pristine.addValidator(priceFieldElement, validatePrice, getPriceMessage, PRICE_VALIDATION_PRIORITY, true);
 pristine.addValidator(capacityFieldElement, validateCapacity, getCapacityMessage);
 
+adFormElement.addEventListener('submit', (evt) => {
+  evt.preventDefault();
 
-const setUserFormSubmit = () => {
-  adFormElement.addEventListener('submit', (evt) => {
-    evt.preventDefault();
+  const isValid = pristine.validate();
+  if (isValid) {
+    // blockSubmitButton();
+    const offerData = new FormData(evt.target);
+    sendData(offerData, () => {
+      adFormElement.reset();
+    });
+  }
+});
 
-    const isValid = pristine.validate();
-    if (isValid) {
-      // blockSubmitButton();
-      const offerData = new FormData(evt.target);
-      sendData(offerData, () => {
-        adFormElement.reset();
-        resetMapHandler();
-      }
-      );
-    }
 
-  });
+const resetMapFilters = () => {
+  mapFilters.reset();
 };
 
 adFormElement.addEventListener('reset', () => {
   resetMapHandler();
+  resetMapFilters();
   changeType(initialType);
   priceUISlider.set(parseInt(priceFieldElement.min, 10));
   pristine.reset();
 });
 
 export {
-  setUserFormSubmit,
   enableActiveState,
   enableInactiveState,
   FORM_DISADLED_CLASS_NAME
