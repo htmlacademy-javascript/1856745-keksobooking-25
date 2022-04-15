@@ -3,6 +3,7 @@ import { MAX_PRICE, offerTypes, roomToGuests } from './data.js';
 import { createUiSlider } from './slider.js';
 import { addMapHandlers } from './map.js';
 import { sendData } from './api.js';
+import { resetInputFile } from './upload-photo.js';
 // import { formFilters } from './filters.js';
 
 // Добавление disabled
@@ -146,6 +147,7 @@ adFormElement.addEventListener('reset', () => {
   resetMapHandler();
   resetMapFilters();
   changeType(initialType);
+  resetInputFile();
   priceUISlider.set(parseInt(priceFieldElement.min, 10));
   pristine.reset();
 });

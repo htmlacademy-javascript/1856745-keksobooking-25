@@ -18,6 +18,7 @@ import {
 import {
   debounce
 } from './util.js';
+import './upload-photo.js';
 
 enableInactiveState();
 toggleFilters(false);
