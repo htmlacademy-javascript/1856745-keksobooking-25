@@ -4,9 +4,6 @@ const Template = {
   SUCCESS_POST: document.querySelector('#success').content.querySelector('.success'),
   ERROR_POST: document.querySelector('#error').content.querySelector('.error')
 };
-Template.ERROR_FETCH = Template.ERROR_POST.cloneNode(true);
-Template.ERROR_FETCH.querySelector('.error__message').textContent = 'Ошибка получения объявлений';
-Template.ERROR_FETCH.querySelector('.error__button').textContent = 'Добавить объявление';
 
 const createPopup = (mode) => {
   const popupElement = Template[mode].cloneNode(true);
@@ -29,5 +26,9 @@ const createPopup = (mode) => {
   popupElement.addEventListener('click', () => closePopup());
   document.addEventListener('keydown', keyCloseHandler);
 };
+
+Template.ERROR_FETCH = Template.ERROR_POST.cloneNode(true);
+Template.ERROR_FETCH.querySelector('.error__message').textContent = 'Ошибка получения объявлений';
+Template.ERROR_FETCH.querySelector('.error__button').textContent = 'Добавить объявление';
 
 export { createPopup };

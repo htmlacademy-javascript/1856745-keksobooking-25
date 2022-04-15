@@ -41,8 +41,6 @@ const addMapHandlers = (addressElement) => {
   };
 };
 
-mainPinMarker.addTo(map);
-
 const markerGroup = L.layerGroup().addTo(map);
 
 const getMapPoints = (array) => {
@@ -76,5 +74,7 @@ const getMapPoints = (array) => {
 const loadMap = (loadHandler) => {
   map.on('load', loadHandler).setView(DEFAULT_LOCATION, ZOOM);
 };
+
+mainPinMarker.addTo(map);
 
 export { loadMap, getMapPoints, addMapHandlers };

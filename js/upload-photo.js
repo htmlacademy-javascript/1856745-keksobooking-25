@@ -16,10 +16,6 @@ const adFormInputLoadHandler = (input, preview) => {
   const fileName = file.name.toLowerCase();
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
-  // if (matches) {
-  //   preview.src = URL.createObjectURL(file);
-  // }
-
   if (matches) {
     const reader = new FileReader();
     reader.addEventListener('load', () => {
@@ -38,16 +34,17 @@ const adFormInputLoadHandler = (input, preview) => {
   }
 };
 
+const resetInputFile = () => {
+  previewAvatar.src = avatarDefault;
+  const adFormPhotoList = adFormPhoto.querySelectorAll('img');
+  adFormPhotoList.forEach((item) => item.remove());
+};
+
 adFormHeaderInput.addEventListener('change',
   () => adFormInputLoadHandler(adFormHeaderInput, previewAvatar));
 
 adFormInput.addEventListener('change',
   () => adFormInputLoadHandler(adFormInput, adFormPhoto));
 
-const resetInputFile = () => {
-  previewAvatar.src = avatarDefault;
-  const adFormPhotoList = adFormPhoto.querySelectorAll('img');
-  adFormPhotoList.forEach((item) => item.remove());
-};
 
 export {resetInputFile};

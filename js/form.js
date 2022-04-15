@@ -81,10 +81,30 @@ const changeType = (type = typeFieldElement.value) => {
   });
 };
 
-
-setPriceAttributes();
 const validateTitle = (value) => value.length >= 30 && value.length <= 100;
 
+const validatePrice = (value) => value >= Number(priceFieldElement.min) && value <= MAX_PRICE;
+
+const getPriceMessage = () => `Выберите число между ${priceFieldElement.min} и ${MAX_PRICE}`;
+const validateCapacity = () => roomToGuests[roomsFieldElement.value].includes(capacityFieldElement.value);
+
+const timesChangeHandler = (evt) => {
+  const { value } = evt.currentTarget;
+  timeinFieldElement.value = value;
+  timeoutFieldElement.value = value;
+};
+
+const getCapacityMessage = () => {
+  const rooms = declineNum(roomsFieldElement.value, 'комнаты', 'комнат');
+  const validGuests = roomToGuests[roomsFieldElement.value];
+  return `Для ${rooms} допустимо гостей: ${validGuests.join(', ')}`;
+};
+
+const resetMapFilters = () => {
+  mapFilters.reset();
+};
+
+setPriceAttributes();
 
 typeFieldElement.addEventListener('change', () => {
   setPriceAttributes();
@@ -100,25 +120,8 @@ pristine.addValidator(
   true
 );
 
-const validatePrice = (value) => value >= Number(priceFieldElement.min) && value <= MAX_PRICE;
-
-const getPriceMessage = () => `Выберите число между ${priceFieldElement.min} и ${MAX_PRICE}`;
-const validateCapacity = () => roomToGuests[roomsFieldElement.value].includes(capacityFieldElement.value);
-
-const timesChangeHandler = (evt) => {
-  const { value } = evt.currentTarget;
-  timeinFieldElement.value = value;
-  timeoutFieldElement.value = value;
-};
-
 timeinFieldElement.addEventListener('change', timesChangeHandler);
 timeoutFieldElement.addEventListener('change', timesChangeHandler);
-
-const getCapacityMessage = () => {
-  const rooms = declineNum(roomsFieldElement.value, 'комнаты', 'комнат');
-  const validGuests = roomToGuests[roomsFieldElement.value];
-  return `Для ${rooms} допустимо гостей: ${validGuests.join(', ')}`;
-};
 
 roomsFieldElement.addEventListener('change', () => pristine.validate(capacityFieldElement));
 
@@ -137,11 +140,6 @@ adFormElement.addEventListener('submit', (evt) => {
     });
   }
 });
-
-
-const resetMapFilters = () => {
-  mapFilters.reset();
-};
 
 adFormElement.addEventListener('reset', () => {
   resetMapHandler();

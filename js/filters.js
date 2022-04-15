@@ -1,8 +1,8 @@
 import { getMapPoints} from './map.js';
 import { toggleForm } from './util.js';
+export const formFilters = document.querySelector('.map__filters');
 const MAX_POINTS_MAP = 10;
 const FILTERS_DISABLED_CLASS_NAME = 'map__filters--disabled';
-export const formFilters = document.querySelector('.map__filters');
 const housingType = formFilters.querySelector('#housing-type');
 const housingPrice = formFilters.querySelector('#housing-price');
 const housingRooms = formFilters.querySelector('#housing-rooms');

@@ -1,3 +1,5 @@
+const TIMEOUT_DALAY = 500;
+
 // Утилита общего назначения для получения случайного целого из диапазона
 export const getRandomPositiveInteger = (a, b) => {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
@@ -7,7 +9,6 @@ export const getRandomPositiveInteger = (a, b) => {
   return Math.floor(result);
 };
 
-
 // Утилита общего назначения для получения случайного числа с заданной точностью из диапапзона
 export const getRandomPositiveFloat = (a, b, digits = 1) => {
   const lower = Math.min(Math.abs(a), Math.abs(b));
@@ -16,7 +17,6 @@ export const getRandomPositiveFloat = (a, b, digits = 1) => {
 
   return parseFloat(result.toFixed(digits));
 };
-
 
 // Утилита общего назначения для получения случайного элемента массива
 export  const getRandomItem = (arr) => arr[getRandomPositiveInteger(0, arr.length - 1)];
@@ -52,8 +52,6 @@ export const declineNum = (num, nominative, genitiveSingular = nominative, genit
   }
   return `${num} ${answer}`;
 };
-
-const TIMEOUT_DALAY = 500;
 
 export const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
