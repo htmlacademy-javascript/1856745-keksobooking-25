@@ -1,4 +1,4 @@
-import {isEscEvent} from './util.js';
+import { isEscEvent } from './util.js';
 
 const Template = {
   SUCCESS_POST: document.querySelector('#success').content.querySelector('.success'),

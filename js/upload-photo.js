@@ -46,5 +46,4 @@ adFormHeaderInput.addEventListener('change',
 adFormInput.addEventListener('change',
   () => adFormInputLoadHandler(adFormInput, adFormPhoto));
 
-
 export {resetInputFile};

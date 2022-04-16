@@ -1,6 +1,4 @@
-import {
-  typeFlat
-} from './data.js';
+import { typeFlat } from './data.js';
 
 import { getMapPoints } from './map.js';
 const MAX_POINTS_MAP = 10;

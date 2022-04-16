@@ -4,7 +4,6 @@ import { createUiSlider } from './slider.js';
 import { addMapHandlers } from './map.js';
 import { sendData } from './api.js';
 import { resetInputFile } from './upload-photo.js';
-// import { formFilters } from './filters.js';
 
 // Добавление disabled
 const setDisabled = function (collection, value = true) {
@@ -45,11 +44,6 @@ const PRICE_VALIDATION_PRIORITY = 1000;
 const initialType = typeFieldElement.value;
 
 const resetMapHandler = addMapHandlers(addressElement);
-// const submitButton = adFormElement.querySelector('.ad-form__submit');
-
-// const blockSubmitButton = () => {
-//   submitButton.disabled = true;
-// };
 
 const pristine = new Pristine(adFormElement, {
   classTo: 'ad-form__element',
@@ -69,7 +63,6 @@ const priceUISlider = createUiSlider(priceSliderElement, parseInt(priceFieldElem
   pristine.validate(priceFieldElement);
 });
 
-
 const changeType = (type = typeFieldElement.value) => {
   setPriceAttributes(type);
 
@@ -79,11 +72,19 @@ const changeType = (type = typeFieldElement.value) => {
       max: MAX_PRICE,
     },
   });
+
+  if (!priceFieldElement.value) {
+    priceUISlider.set(0);
+  }
 };
 
 const validateTitle = (value) => value.length >= 30 && value.length <= 100;
 
-const validatePrice = (value) => value >= Number(priceFieldElement.min) && value <= MAX_PRICE;
+const validatePrice = (value) => {
+  const price = Number(value || 0);
+  const inRange = price >= Number(priceFieldElement.min) && price <= MAX_PRICE;
+  return /^\d+$/.test(value) && inRange;
+};
 
 const getPriceMessage = () => `Выберите число между ${priceFieldElement.min} и ${MAX_PRICE}`;
 const validateCapacity = () => roomToGuests[roomsFieldElement.value].includes(capacityFieldElement.value);
@@ -133,7 +134,6 @@ adFormElement.addEventListener('submit', (evt) => {
 
   const isValid = pristine.validate();
   if (isValid) {
-    // blockSubmitButton();
     const offerData = new FormData(evt.target);
     sendData(offerData, () => {
       adFormElement.reset();

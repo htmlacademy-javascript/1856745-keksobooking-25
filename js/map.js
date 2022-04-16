@@ -43,11 +43,11 @@ const addMapHandlers = (addressElement) => {
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const getMapPoints = (array) => {
+const getMapPoints = (offers) => {
 
   markerGroup.clearLayers();
 
-  array.forEach(({author, offer, location}) => {
+  offers.forEach(({author, offer, location}) => {
     const icon = setPin(PIN_SIZE, 'pin');
     const lat = location.lat;
     const lng = location.lng;
