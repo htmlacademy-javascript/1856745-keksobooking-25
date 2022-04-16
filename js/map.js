@@ -49,18 +49,13 @@ const getMapPoints = (offers) => {
 
   offers.forEach(({author, offer, location}) => {
     const icon = setPin(PIN_SIZE, 'pin');
-    const lat = location.lat;
-    const lng = location.lng;
-    const marker = L.marker(
-      {
-        lat,
-        lng,
-      },
+
+    L.marker(
+      location,
       {
         icon,
       },
-    );
-    marker
+    )
       .addTo(markerGroup)
       .bindPopup(renderCard({author, offer, location}),
         {
