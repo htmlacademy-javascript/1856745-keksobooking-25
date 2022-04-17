@@ -1,3 +1,5 @@
+const TIMEOUT_DELAY = 500;
+
 // Утилита общего назначения для получения случайного целого из диапазона
 export const getRandomPositiveInteger = (a, b) => {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
@@ -7,7 +9,6 @@ export const getRandomPositiveInteger = (a, b) => {
   return Math.floor(result);
 };
 
-
 // Утилита общего назначения для получения случайного числа с заданной точностью из диапапзона
 export const getRandomPositiveFloat = (a, b, digits = 1) => {
   const lower = Math.min(Math.abs(a), Math.abs(b));
@@ -16,7 +17,6 @@ export const getRandomPositiveFloat = (a, b, digits = 1) => {
 
   return parseFloat(result.toFixed(digits));
 };
-
 
 // Утилита общего назначения для получения случайного элемента массива
 export  const getRandomItem = (arr) => arr[getRandomPositiveInteger(0, arr.length - 1)];
@@ -53,31 +53,21 @@ export const declineNum = (num, nominative, genitiveSingular = nominative, genit
   return `${num} ${answer}`;
 };
 
-const ALERT_SHOW_TIME = 5000;
+export const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
-export const showAlert = (message) => {
-  const alertContainer = document.createElement('div');
-  alertContainer.style.width = '500px';
-  alertContainer.style.height = '200px';
-  alertContainer.style.backgroundColor = '#353535';
-  alertContainer.style.zIndex = 1000;
-  alertContainer.style.position = 'absolute';
-  alertContainer.style.top = 0;
-  alertContainer.style.bottom = 0;
-  alertContainer.style.left = 0;
-  alertContainer.style.right = 0;
-  alertContainer.style.margin = 'auto';
-  alertContainer.style.padding = '80px 50px';
-  alertContainer.style.fontSize = '20px';
-  alertContainer.style.textAlign = 'center';
-  alertContainer.style.color = 'white';
-
-  alertContainer.textContent = message;
-  document.body.append(alertContainer);
-
-  setTimeout(() => {
-    alertContainer.remove();
-  }, ALERT_SHOW_TIME);
+export const debounce = (callback) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), TIMEOUT_DELAY);
+  };
 };
 
-export const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
+export const toggleForm = (activeFlag, formElement, disabledClassName) => {
+  const classMethod = activeFlag ? 'remove' : 'add';
+  formElement.classList[classMethod](disabledClassName);
+
+  formElement.querySelectorAll('fieldset').forEach((fieldset) => {
+    fieldset.disabled = !activeFlag;
+  });
+};

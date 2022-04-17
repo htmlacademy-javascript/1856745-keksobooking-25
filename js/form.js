@@ -3,8 +3,7 @@ import { MAX_PRICE, offerTypes, roomToGuests } from './data.js';
 import { createUiSlider } from './slider.js';
 import { addMapHandlers } from './map.js';
 import { sendData } from './api.js';
-// import { createPopup } from './popup.js';
-// import { getPopupSuccess, getPopupError } from './modals.js';
+import { resetInputFile } from './upload-photo.js';
 
 // Добавление disabled
 const setDisabled = function (collection, value = true) {
@@ -13,24 +12,26 @@ const setDisabled = function (collection, value = true) {
   });
 };
 const FORM_DISADLED_CLASS_NAME = 'ad-form--disabled';
-const adForm = document.querySelector('.ad-form');
-const adFormFieldsets = adForm.querySelectorAll('fieldset');
+const adFormElement = document.querySelector('.ad-form');
+const adFormFieldsets = adFormElement.querySelectorAll('fieldset');
 setDisabled(adFormFieldsets, true);
+
+const mapFilters = document.querySelector('.map__filters');
 
 // Перевод в активное состояние
 const enableActiveState = () => {
-  adForm.classList.remove(FORM_DISADLED_CLASS_NAME);
+  adFormElement.classList.remove(FORM_DISADLED_CLASS_NAME);
   setDisabled(adFormFieldsets, false);
 };
 
 // Перевод в неактивное состояние
 const enableInactiveState = () => {
-  adForm.classList.add(FORM_DISADLED_CLASS_NAME);
+  adFormElement.classList.add(FORM_DISADLED_CLASS_NAME);
   setDisabled(adFormFieldsets, true);
 };
 
 //Валидация формы
-const adFormElement = document.querySelector('.ad-form');
+
 const addressElement = adFormElement.querySelector('#address');
 const roomsFieldElement = adFormElement.querySelector('[name="rooms"]');
 const capacityFieldElement = adFormElement.querySelector('[name="capacity"]');
@@ -43,11 +44,6 @@ const PRICE_VALIDATION_PRIORITY = 1000;
 const initialType = typeFieldElement.value;
 
 const resetMapHandler = addMapHandlers(addressElement);
-// const submitButton = adFormElement.querySelector('.ad-form__submit');
-
-// const blockSubmitButton = () => {
-//   submitButton.disabled = true;
-// };
 
 const pristine = new Pristine(adFormElement, {
   classTo: 'ad-form__element',
@@ -67,7 +63,6 @@ const priceUISlider = createUiSlider(priceSliderElement, parseInt(priceFieldElem
   pristine.validate(priceFieldElement);
 });
 
-
 const changeType = (type = typeFieldElement.value) => {
   setPriceAttributes(type);
 
@@ -77,12 +72,40 @@ const changeType = (type = typeFieldElement.value) => {
       max: MAX_PRICE,
     },
   });
+
+  if (!priceFieldElement.value) {
+    priceUISlider.set(0);
+  }
 };
 
-
-setPriceAttributes();
 const validateTitle = (value) => value.length >= 30 && value.length <= 100;
 
+const validatePrice = (value) => {
+  const price = Number(value || 0);
+  const inRange = price >= Number(priceFieldElement.min) && price <= MAX_PRICE;
+  return /^\d+$/.test(value) && inRange;
+};
+
+const getPriceMessage = () => `Выберите число между ${priceFieldElement.min} и ${MAX_PRICE}`;
+const validateCapacity = () => roomToGuests[roomsFieldElement.value].includes(capacityFieldElement.value);
+
+const timesChangeHandler = (evt) => {
+  const { value } = evt.currentTarget;
+  timeinFieldElement.value = value;
+  timeoutFieldElement.value = value;
+};
+
+const getCapacityMessage = () => {
+  const rooms = declineNum(roomsFieldElement.value, 'комнаты', 'комнат');
+  const validGuests = roomToGuests[roomsFieldElement.value];
+  return `Для ${rooms} допустимо гостей: ${validGuests.join(', ')}`;
+};
+
+const resetMapFilters = () => {
+  mapFilters.reset();
+};
+
+setPriceAttributes();
 
 typeFieldElement.addEventListener('change', () => {
   setPriceAttributes();
@@ -98,60 +121,41 @@ pristine.addValidator(
   true
 );
 
-const validatePrice = (value) => value >= Number(priceFieldElement.min) && value <= MAX_PRICE;
-
-const getPriceMessage = () => `Выберите число между ${priceFieldElement.min} и ${MAX_PRICE}`;
-const validateCapacity = () => roomToGuests[roomsFieldElement.value].includes(capacityFieldElement.value);
-
-const timesChangeHandler = (evt) => {
-  const { value } = evt.currentTarget;
-  timeinFieldElement.value = value;
-  timeoutFieldElement.value = value;
-};
-
 timeinFieldElement.addEventListener('change', timesChangeHandler);
 timeoutFieldElement.addEventListener('change', timesChangeHandler);
-
-const getCapacityMessage = () => {
-  const rooms = declineNum(roomsFieldElement.value, 'комнаты', 'комнат');
-  const validGuests = roomToGuests[roomsFieldElement.value];
-  return `Для ${rooms} допустимо гостей: ${validGuests.join(', ')}`;
-};
 
 roomsFieldElement.addEventListener('change', () => pristine.validate(capacityFieldElement));
 
 pristine.addValidator(priceFieldElement, validatePrice, getPriceMessage, PRICE_VALIDATION_PRIORITY, true);
 pristine.addValidator(capacityFieldElement, validateCapacity, getCapacityMessage);
 
+adFormElement.addEventListener('submit', (evt) => {
+  evt.preventDefault();
 
-const setUserFormSubmit = () => {
-  adFormElement.addEventListener('submit', (evt) => {
-    evt.preventDefault();
+  const isValid = pristine.validate();
+  if (isValid) {
+    const offerData = new FormData(evt.target);
+    sendData(offerData, () => {
+      adFormElement.reset();
+    });
+  }
+});
 
-    const isValid = pristine.validate();
-    if (isValid) {
-      // blockSubmitButton();
-      const offerData = new FormData(evt.target);
-      sendData(offerData, () => {
-        adFormElement.reset();
-        resetMapHandler();
-      }
-      );
-    }
-
+const setResetHandler = (cb) => {
+  adFormElement.addEventListener('reset', () => {
+    resetMapHandler();
+    resetMapFilters();
+    changeType(initialType);
+    resetInputFile();
+    priceUISlider.set(parseInt(priceFieldElement.min, 10));
+    pristine.reset();
+    cb();
   });
 };
 
-adFormElement.addEventListener('reset', () => {
-  resetMapHandler();
-  changeType(initialType);
-  priceUISlider.set(parseInt(priceFieldElement.min, 10));
-  pristine.reset();
-});
-
 export {
-  setUserFormSubmit,
   enableActiveState,
   enableInactiveState,
+  setResetHandler,
   FORM_DISADLED_CLASS_NAME
 };

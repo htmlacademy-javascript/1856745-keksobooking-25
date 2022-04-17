@@ -1,21 +1,25 @@
 import {
   enableActiveState,
   enableInactiveState,
-  setUserFormSubmit
+  setResetHandler
 } from './form.js';
+import { loadMap } from './map.js';
+import { getData } from './api.js';
 import {
-  getMapPoints,
-  loadMap
-} from './map.js';
-import {
-  getData,
-  // sendData
-} from './api.js';
+  getFilteredData,
+  setFormFilterListener,
+  toggleFilters
+} from './filters.js';
+import { debounce } from './util.js';
+import './upload-photo.js';
 
 enableInactiveState();
-
+toggleFilters(false);
 getData((data) => {
-  getMapPoints(data);
-  loadMap(enableActiveState());
-});
-setUserFormSubmit();
+  getFilteredData(data);
+  loadMap();
+  setFormFilterListener(debounce(() => getFilteredData(data)));
+  toggleFilters(data.length > 0);
+  setResetHandler(() => getFilteredData(data));
+}).then(() => enableActiveState(true));
+

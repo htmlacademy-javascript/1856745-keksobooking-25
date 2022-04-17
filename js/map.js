@@ -1,12 +1,11 @@
 import { DEFAULT_LOCATION, COORD_DECIMALS } from './data.js';
 import { renderCard } from './card.js';
-// import {offers} from './data.js';
 const MAIN_PIN_SIZE = 52;
 const PIN_SIZE = 40;
 const PIN_RATIO = 0.5;
 const BALOON_MIN_WIDTH = 300;
 const BALOON_MAX_HEIGHT = 400;
-
+const ZOOM = 13;
 const map = L.map('map-canvas')
   .setView(DEFAULT_LOCATION, 10);
 
@@ -38,11 +37,9 @@ const addMapHandlers = (addressElement) => {
 
   return () => {
     mainPinMarker.setLatLng(DEFAULT_LOCATION);
-    map.closePopup().setView(DEFAULT_LOCATION);
+    map.closePopup().setView(DEFAULT_LOCATION, ZOOM);
   };
 };
-
-mainPinMarker.addTo(map);
 
 const markerGroup = L.layerGroup().addTo(map);
 
@@ -52,18 +49,13 @@ const getMapPoints = (offers) => {
 
   offers.forEach(({author, offer, location}) => {
     const icon = setPin(PIN_SIZE, 'pin');
-    const lat = location.lat;
-    const lng = location.lng;
-    const marker = L.marker(
-      {
-        lat,
-        lng,
-      },
+
+    L.marker(
+      location,
       {
         icon,
       },
-    );
-    marker
+    )
       .addTo(markerGroup)
       .bindPopup(renderCard({author, offer, location}),
         {
@@ -75,7 +67,9 @@ const getMapPoints = (offers) => {
   });
 };
 const loadMap = (loadHandler) => {
-  map.on('load', loadHandler).setView(DEFAULT_LOCATION);
+  map.on('load', loadHandler).setView(DEFAULT_LOCATION, ZOOM);
 };
+
+mainPinMarker.addTo(map);
 
 export { loadMap, getMapPoints, addMapHandlers };

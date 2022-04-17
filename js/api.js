@@ -1,3 +1,4 @@
+
 import { createPopup } from './popup.js';
 const SERVER = 'https://25.javascript.pages.academy/keksobooking';
 
@@ -11,11 +12,11 @@ const getData = (onSuccess) => fetch(`${SERVER}/data`, {
     if (ok) {
       return res.json();
     }
-
     createPopup('ERROR_FETCH');
     return [];
   })
-  .then(onSuccess);
+  .then(onSuccess)
+  .catch(() => []);
 
 const sendData = (body, handleSuccess) => fetch(SERVER, {
   method: 'POST',
