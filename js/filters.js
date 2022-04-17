@@ -72,7 +72,7 @@ const getFilteredData = (data) => {
   }
 };
 
-const formFilterListener = (cb) => {
+const setFormFilterListener = (cb) => {
   formFilters.addEventListener('change', () => {
     cb();
   });
@@ -82,4 +82,4 @@ const toggleFilters = (isActive) => {
   toggleForm(isActive, formFilters, FILTERS_DISABLED_CLASS_NAME);
 };
 
-export {getFilteredData, formFilterListener, toggleFilters};
+export {getFilteredData, setFormFilterListener, toggleFilters};

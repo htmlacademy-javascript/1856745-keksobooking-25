@@ -6,7 +6,7 @@ import { loadMap } from './map.js';
 import { getData } from './api.js';
 import {
   getFilteredData,
-  formFilterListener,
+  setFormFilterListener,
   toggleFilters
 } from './filters.js';
 import { debounce } from './util.js';
@@ -17,7 +17,7 @@ toggleFilters(false);
 getData((data) => {
   getFilteredData(data);
   loadMap();
-  formFilterListener(debounce(() => getFilteredData(data)));
+  setFormFilterListener(debounce(() => getFilteredData(data)));
   toggleFilters(data.length > 0);
 }).then(() => enableActiveState(true));
 
