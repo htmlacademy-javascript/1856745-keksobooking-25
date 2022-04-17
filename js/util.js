@@ -1,4 +1,4 @@
-const TIMEOUT_DALAY = 500;
+const TIMEOUT_DELAY = 500;
 
 // Утилита общего назначения для получения случайного целого из диапазона
 export const getRandomPositiveInteger = (a, b) => {
@@ -59,7 +59,7 @@ export const debounce = (callback) => {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => callback.apply(this, rest), TIMEOUT_DALAY);
+    timeoutId = setTimeout(() => callback.apply(this, rest), TIMEOUT_DELAY);
   };
 };
 

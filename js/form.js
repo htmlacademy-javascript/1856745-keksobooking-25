@@ -141,17 +141,21 @@ adFormElement.addEventListener('submit', (evt) => {
   }
 });
 
-adFormElement.addEventListener('reset', () => {
-  resetMapHandler();
-  resetMapFilters();
-  changeType(initialType);
-  resetInputFile();
-  priceUISlider.set(parseInt(priceFieldElement.min, 10));
-  pristine.reset();
-});
+const setResetHandler = (cb) => {
+  adFormElement.addEventListener('reset', () => {
+    resetMapHandler();
+    resetMapFilters();
+    changeType(initialType);
+    resetInputFile();
+    priceUISlider.set(parseInt(priceFieldElement.min, 10));
+    pristine.reset();
+    cb();
+  });
+};
 
 export {
   enableActiveState,
   enableInactiveState,
+  setResetHandler,
   FORM_DISADLED_CLASS_NAME
 };
