@@ -16,8 +16,8 @@ enableInactiveState();
 toggleFilters(false);
 getData((data) => {
   getFilteredData(data);
-  loadMap(enableActiveState(true));
-  toggleFilters(true);
+  loadMap();
   formFilterListener(debounce(() => getFilteredData(data)));
-});
+  toggleFilters(true);
+}).then(() => enableActiveState(true));
 
