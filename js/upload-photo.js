@@ -1,15 +1,15 @@
 const FILE_TYPES = ['gif', 'jpeg', 'jpg', 'png'];
 const avatarDefault = 'img/muffin-grey.svg';
 
-const adForm = document.querySelector('.ad-form');
-const adFormField = adForm.querySelector('.ad-form__field');
+const adFormElement = document.querySelector('.ad-form');
+const adFormField = adFormElement.querySelector('.ad-form__field');
 const adFormHeaderInput = adFormField.querySelector('.ad-form-header__input');
-const adFormHeaderPreview = adForm.querySelector('.ad-form-header__preview');
+const adFormHeaderPreview = adFormElement.querySelector('.ad-form-header__preview');
 const previewAvatar = adFormHeaderPreview.querySelector('img');
 
-const adFormUpload = adForm.querySelector('.ad-form__upload');
+const adFormUpload = adFormElement.querySelector('.ad-form__upload');
 const adFormInput = adFormUpload.querySelector('.ad-form__input');
-const adFormPhoto = adForm.querySelector('.ad-form__photo');
+const adFormPhoto = adFormElement.querySelector('.ad-form__photo');
 
 const adFormInputLoadHandler = (input, preview) => {
   const file = input.files[0];

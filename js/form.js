@@ -12,26 +12,26 @@ const setDisabled = function (collection, value = true) {
   });
 };
 const FORM_DISADLED_CLASS_NAME = 'ad-form--disabled';
-const adForm = document.querySelector('.ad-form');
-const adFormFieldsets = adForm.querySelectorAll('fieldset');
+const adFormElement = document.querySelector('.ad-form');
+const adFormFieldsets = adFormElement.querySelectorAll('fieldset');
 setDisabled(adFormFieldsets, true);
 
 const mapFilters = document.querySelector('.map__filters');
 
 // Перевод в активное состояние
 const enableActiveState = () => {
-  adForm.classList.remove(FORM_DISADLED_CLASS_NAME);
+  adFormElement.classList.remove(FORM_DISADLED_CLASS_NAME);
   setDisabled(adFormFieldsets, false);
 };
 
 // Перевод в неактивное состояние
 const enableInactiveState = () => {
-  adForm.classList.add(FORM_DISADLED_CLASS_NAME);
+  adFormElement.classList.add(FORM_DISADLED_CLASS_NAME);
   setDisabled(adFormFieldsets, true);
 };
 
 //Валидация формы
-const adFormElement = document.querySelector('.ad-form');
+
 const addressElement = adFormElement.querySelector('#address');
 const roomsFieldElement = adFormElement.querySelector('[name="rooms"]');
 const capacityFieldElement = adFormElement.querySelector('[name="capacity"]');
