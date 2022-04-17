@@ -18,6 +18,6 @@ getData((data) => {
   getFilteredData(data);
   loadMap();
   formFilterListener(debounce(() => getFilteredData(data)));
-  toggleFilters(true);
+  toggleFilters(data.length > 0);
 }).then(() => enableActiveState(true));
 

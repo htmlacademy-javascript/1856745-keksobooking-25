@@ -15,7 +15,8 @@ const getData = (onSuccess) => fetch(`${SERVER}/data`, {
     createPopup('ERROR_FETCH');
     return [];
   })
-  .then(onSuccess);
+  .then(onSuccess)
+  .catch(() => []);
 
 const sendData = (body, handleSuccess) => fetch(SERVER, {
   method: 'POST',
