@@ -6,7 +6,7 @@ import { sendData } from './api.js';
 import { resetInputFile } from './upload-photo.js';
 
 // Добавление disabled
-const setDisabled = function (collection, value = true) {
+const setDisabled = (collection, value = true) => {
   collection.forEach((item) => {
     item.disabled = value;
   });
